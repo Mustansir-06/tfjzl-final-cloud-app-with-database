@@ -26,16 +26,16 @@ def show_exam_result(request, course_id, submission_id):
     submission = get_object_or_404(Submission, pk=submission_id)
     selected_ids = [choice.id for choice in submission.choices.all()]
     
-    total_score = 0
     grade = 0
+    possible_score = 0
     for question in course.question_set.all():
-        total_score += question.grade
+        possible_score += question.grade
         if question.is_get_score(selected_ids):
             grade += question.grade
             
     context['course'] = course
     context['grade'] = grade
-    context['total_score'] = total_score
+    context['possible_score'] = possible_score
     context['submission'] = submission
     context['selected_ids'] = selected_ids
     
