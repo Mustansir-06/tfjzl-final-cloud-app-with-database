@@ -52,4 +52,4 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-        return "Enrollment: " + str(self.enrollment)
+        return "Enrollment: " + str(self.enrollment.user.username) + " - " + str(self.enrollment.course.name)
