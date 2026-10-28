@@ -1,24 +1,30 @@
 {% extends 'onlinecourse/base.html' %}
 {% block content %}
 <div class="container-fluid">
-    <h2>{{ course.name }}</h2>
-    <div class="card-columns-fluid">
+    <h2 class="mt-4">{{ course.name }}</h2>
+    <div class="card-columns">
         {% for lesson in course.lesson_set.all %}
-        <div class="card mt-1">
-            <div class="card-header"><h5>Lesson {{ lesson.order }}: {{ lesson.title }}</h5></div>
-            <div class="card-body">{{ lesson.content }}</div>
+        <div class="card mt-2">
+            <div class="card-header bg-primary text-white">
+                <h5>Lesson {{ lesson.order }}: {{ lesson.title }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ lesson.content }}</p>
+            </div>
         </div>
         {% endfor %}
     </div>
 
     {% if user.is_authenticated %}
     <br>
-    <button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#exam">Start Exam</button>
+    <button class="btn btn-primary btn-block mb-3" data-toggle="collapse" data-target="#exam">Start Exam</button>
     <div id="exam" class="collapse">
         <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
             {% for question in course.question_set.all %}
-            <div class="card mt-1">
-                <div class="card-header"><h5>{{ question.question_text }}</h5></div>
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h5>{{ question.question_text }}</h5>
+                </div>
                 <div class="card-body">
                     {% csrf_token %}
                     {% for choice in question.choice_set.all %}
@@ -31,7 +37,7 @@
                 </div>
             </div>
             {% endfor %}
-            <input class="btn btn-success btn-block mt-2" type="submit" value="Submit">
+            <input class="btn btn-success btn-block mt-3 mb-5" type="submit" value="Submit">
         </form>
     </div>
     {% endif %}
